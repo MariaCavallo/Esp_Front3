@@ -1,0 +1,30 @@
+
+.booksGrid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.offerTitle {
+    margin: 2%;
+    text-align: center;
+}
+
+.offerImg {
+    border-radius: 10px;
+}
+
+.booksOffer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    height: 23rem;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 5px;
+    margin: 2%;
+}

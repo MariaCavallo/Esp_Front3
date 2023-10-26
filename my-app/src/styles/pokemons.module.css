@@ -1,0 +1,155 @@
+
+.pokemonsContainer{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 2%;
+}
+
+.pokemonAppContainer{
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 39.5vw;
+}
+
+.pokemonsList{
+    margin: 5%
+}
+
+.pokemonsList p strong{
+    color: rgb(170, 40, 40);
+}
+
+.pokemonImage{
+    width: auto;
+    height: 10rem
+}
+
+.listOnePokemon{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.listOnePokemon li{
+    display: flex;
+    gap: 10px;
+}
+
+.listOnePokemon li strong{
+    color: rgb(170, 40, 40);
+}
+
+.containerOnePokemon{
+    color: #000;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 40rem;
+    margin: 2% 25%;
+    padding: 2%;
+}
+
+.link{
+    text-decoration: underline;
+}
+
+.linkHome{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 2rem;
+}
+
+.linkApp{
+    background-color: transparent;
+    border: 2px solid black;
+    box-shadow: 1px 1px 6px 2px rgba(0, 0, 0, 0.411);
+    border-radius: 10px;
+    padding: 1%;
+}
+
+.linkApp:hover{
+    background-color: rgb(41, 41, 41);
+    color: #ffff;
+    transition: background-color 0.9s ease
+}
+
+.link:hover, .nameLink:hover, .linkHome:hover{
+    color: darkgray;
+}
+
+.buttonsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.buttonPage{
+    height: auto;
+    width: auto;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: transparent;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1%;
+}
+
+.linksNav{
+    display: flex;
+    gap: 12px;
+}
+
+.es:hover, .en:hover, .br:hover{
+    transform: scale(1.2);
+}
+
+.logoAndName{
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-family: cursive;
+    font-style: oblique;
+    color: rgb(170, 40, 40);
+}
+
+.cardHome, .cardListPokemons, .containerOnePokemon{
+    background-color: rgba(240, 255, 255, 0.911);
+    border-radius: 20px;
+}
+
+.cardHome{
+    height: 11rem;
+}
+
+.cardListPokemons{
+    color: black;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 30rem;
+    margin: 2% 31%;
+}
