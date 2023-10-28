@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
-import { Receitas } from "..";
+import { Receitas } from "../index";
+import styles from '../../styles/bolo.module.css'
 
 const fetcher = async (url: string) => {
     const res = await fetch(url);
@@ -30,17 +31,16 @@ const Bolo = () => {
         return <div>Carregando...</div>;
     }
 
-    console.log("Datos recibidos:", data);
-
     return (
         <div>
             <Link href="/">
                 <button>Página inicial</button>
             </Link>
-            <div>
+            <h1 className={styles.h1} >Receita</h1>
+            <div className={styles.cardBolo}>
                 <Image src={data.image} alt={data.title} width={200} height={200} />
                 <span>
-                    <h2>{data.title}</h2>
+                    <h2 className={styles.titleBolo}>{data.title}</h2>
                     <p> {data.description}</p>
                 </span>
                 <p>{data.text}</p>

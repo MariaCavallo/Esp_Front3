@@ -1,0 +1,17 @@
+.cardBolo {
+    border: 2px solid #026a92;
+    background-color: #baddeb;
+    border-radius: 16px;
+    text-align: center;
+    padding: 32px 56px;
+}
+
+.titleBolo {
+    color: #014058;
+}
+
+.h1 {
+    color: #014058;
+    text-align: center;
+    font-size: 3rem;
+}
