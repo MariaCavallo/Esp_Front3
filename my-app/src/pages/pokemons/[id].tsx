@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { OnePokemon } from "./pokemonsType";
+import { OnePokemon } from "../../pokemonsType";
 import style from "../../styles/pokemons.module.css"
 import Link from "next/link";
 import { Locale } from "../_app";
@@ -18,29 +18,6 @@ function Pokemon({ pokemon }: PokemonProps) {
     const router = useRouter()
     const locale = useContext(Locale);
     const content = locale === "es" ? contentEs : (locale === "br" ? contentBr : contentEn);
-    const [pokemonData, setPokemonData] = useState<OnePokemon | null>(null);
-
-    // useEffect(() => {
-    //     if (pokemonId) {
-    //         async function fetchPokemonData() {
-    //             try {
-    //                 const response = await fetch(
-    //                     `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
-    //                 );
-
-    //                 if (response.ok) {
-    //                     const data = await response.json();
-    //                     setPokemonData(data);
-    //                 } else {
-    //                     console.error("Error al obtener datos:", response.statusText);
-    //                 }
-    //             } catch (error) {
-    //                 console.error("Error al obtener datos:", error);
-    //             }
-    //         }
-    //         fetchPokemonData();
-    //     }
-    // }, [pokemonId]);
 
     return (
         <div className={style.pokemonsContainer}>

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Pokemons } from './pokemonsType';
+import { Pokemons } from '../../pokemonsType';
 import Link from 'next/link';
 import style from '../../styles/pokemons.module.css'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa"
