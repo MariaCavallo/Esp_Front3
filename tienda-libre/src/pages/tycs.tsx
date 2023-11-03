@@ -1,10 +1,11 @@
 import React from "react";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { TyC, TyCsAPIResponse } from "../types";
 import styles from "../styles/TYC.module.css";
 import Head from "next/head";
 import { defaultLocale, locales, TEXTS_BY_LANGUAGE } from "../locale/constants";
 import { useRouter } from "next/router";
+import { tycs } from "./api/db";
 
 type IProps = {
   data: TyCsAPIResponse;
@@ -16,15 +17,18 @@ const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
   if (!data) return null;
 
   const { MAIN } = TEXTS_BY_LANGUAGE[locale as keyof typeof TEXTS_BY_LANGUAGE] ?? TEXTS_BY_LANGUAGE[defaultLocale];
+  
+  const renderTyc: (tyc: TyC, locale: string) => JSX.Element = ({ id, description, title }, locale) => {
+    
+    const tyc = tycs[locale].tycs.find((tyc: { id: number; }) => tyc.id === id);
 
-  const { version, tycs } = data;
-
-  const renderTyc: (tyc: TyC) => JSX.Element = ({ id, description, title }) => (
+    return(
     <div key={id}>
-      <h3>{title}</h3>
-      <p>{description}</p>
+      <h3>{tyc?.title}</h3>
+      <p>{tyc?.description}</p>
     </div>
-  );
+    )
+  }
 
   return (
     <div className={styles.tycContainer}>
@@ -36,14 +40,14 @@ const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
         />
       </Head>
       <h2>{MAIN.TYCS}</h2>
-      <p>Versión: {version}</p>
-      {tycs.map(renderTyc)}
+      <p>Versión: {locale && tycs[locale] ? tycs[locale].version : "Version no disponible"}</p>
+      {data.tycs.map((tyc) => (locale ? renderTyc(tyc, locale) : null))}
     </div>
   );
 };
 
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }): Promise<{ props: { data: TyCsAPIResponse } }> => {
 
   const locale = params?.locale as keyof typeof locales;
 
@@ -59,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   } catch (error) {
     console.error("Error al obtener los datos de la api: ", error);
     return {
-      props: { data: null }
+      props: { data: {tycs: [], version: ""}}
     }
   }
 

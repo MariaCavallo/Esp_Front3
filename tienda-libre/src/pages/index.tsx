@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { defaultLocale, TEXTS_BY_LANGUAGE, locales } from "../locale/constants";
 import styles from "../styles/Home.module.css";
 import { Product, ProductsAPIResponse } from "../types";
+import { products } from "./api/db";
 
 type IProps = {
   data: ProductsAPIResponse;
@@ -25,41 +26,37 @@ const Home: NextPage<IProps> = ({ data }) => {
     rating: number,
     maxStars?: number
   ) => JSX.Element[] = (rating, maxStars = 5) =>
-    Array.from({ length: maxStars }).map((_, index) => (
-      <Image
-        key={index}
-        alt={index <= rating ? "yellow star" : "empty star"}
-        src={index <= rating ? "/yellowStar.png" : "/emptyStar.png"}
-        width={20}
-        height={20}
-      />
-    ));
-
-  const renderProductCard: (product: Product) => JSX.Element = ({
-    id,
-    title,
-    description,
-    rating,
-    image,
-    price,
-  }) => (
-    <div className={styles.card} key={id}>
-      <h2>{title}</h2>
-      <p>
-        {renderRatingStars(rating)}
-        <b className={styles.price}>${formatPrice(price)}</b>
-      </p>
-      <div className={styles.imageDescription}>
+      Array.from({ length: maxStars }).map((_, index) => (
         <Image
-          src={image}
-          width={100}
-          height={130}
-          alt={title}
+          key={index}
+          alt={index <= rating ? "yellow star" : "empty star"}
+          src={index <= rating ? "/yellowStar.png" : "/emptyStar.png"}
+          width={20}
+          height={20}
         />
-        <p>{description}</p>
+      ));
+      
+
+  const renderProductCard: (product: Product, locale: string) => JSX.Element = ({ id, title, description, rating, image, price }, locale) => {
+    return (
+      <div className={styles.card} key={id}>
+        <h2>{products[locale].find((product) => product.id === id)?.title}</h2>
+        <p>
+          {renderRatingStars(rating)}
+          <b className={styles.price}>${formatPrice(price)}</b>
+        </p>
+        <div className={styles.imageDescription}>
+          <Image
+            src={image}
+            width={100}
+            height={130}
+            alt={title}
+          />
+          <p>{products[locale].find((product) => product.id === id)?.description}</p>
+        </div>
       </div>
-    </div>
-  );
+    )
+  };
 
   return (
     <div className={styles.container}>
@@ -72,7 +69,7 @@ const Home: NextPage<IProps> = ({ data }) => {
       </Head>
       <main className={styles.main}>
         <h1>{MAIN.PRODUCTS}</h1>
-        <div className={styles.grid}>{data.map(renderProductCard)}</div>
+        <div className={styles.grid}>{data.map((product) => (locale ? renderProductCard(product, locale) : null))}</div>
       </main>
       <footer className={styles.footer}>
         <span>Powered by</span>
@@ -90,8 +87,8 @@ const Home: NextPage<IProps> = ({ data }) => {
 };
 
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  
+export const getServerSideProps: GetServerSideProps = async ({ params }): Promise<{ props: { data: ProductsAPIResponse } }> => {
+
   const locale = params?.locale as keyof typeof locales;
 
   try {
@@ -105,7 +102,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   } catch (error) {
     console.error("Error al obtener datos de la API:", error);
     return {
-      props: { data: null },
+      props: { data: [] },
     };
   }
 }
