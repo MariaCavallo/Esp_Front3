@@ -71,7 +71,7 @@ const Home: NextPage<IProps> = ({ data }) => {
         />
       </Head>
       <main className={styles.main}>
-        <h1>{`${MAIN.PRODUCTS}`}</h1>
+        <h1>{MAIN.PRODUCTS}</h1>
         <div className={styles.grid}>{data.map(renderProductCard)}</div>
       </main>
       <footer className={styles.footer}>
@@ -89,17 +89,6 @@ const Home: NextPage<IProps> = ({ data }) => {
   );
 };
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-  
-//   const paths = Object.keys(locales).map((locale) => ({
-//     params: { locale },
-//   }));
-
-//   return { 
-//     paths, 
-//     fallback: 'blocking' 
-//   };
-// };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   

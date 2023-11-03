@@ -42,17 +42,6 @@ const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
   );
 };
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-  
-//   const paths = Object.keys(locales).map((locale) => ({
-//     params: { locale },
-//   }));
-
-//   return { 
-//     paths, 
-//     fallback: 'blocking' 
-//   };
-// };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
