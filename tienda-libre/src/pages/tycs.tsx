@@ -44,15 +44,24 @@ const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
   );
 };
 
-export async function getStaticProps({ locale, }: { locale: string; }): Promise<{ props: { data: TyCsAPIResponse } }> {
+export async function getStaticProps({ locale }: { locale: string; }) {
 
-  const baseUrl = "http://localhost:3000/";
-  const response = await fetch(`${baseUrl}/api/tycs/${locale}`);
-  const data = await response.json();
+  try {
 
-  return {
-    props: { data },
-  };
+    const baseUrl = "http://localhost:3000/";
+    const response = await fetch(`${baseUrl}/api/tycs/${locale}`);
+    const data = await response.json();
+    return {
+      props: { data },
+    };
+
+  } catch (error) {
+    console.error("Error al obtener los datos de la api: ", error);
+    return {
+      props: { data: null }
+    }
+  }
+
 }
 
 export default TerminosYCondiciones;

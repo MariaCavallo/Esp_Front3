@@ -3,13 +3,8 @@ import { defaultLocale } from "../../../locale/constants";
 import { TyCsAPIResponse } from "../../../types";
 import { tycs } from "../db";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<TyCsAPIResponse>
-) {
-  const {
-    query: { lan },
-  } = req;
+export default async function tycsHandler(req: NextApiRequest, res: NextApiResponse<TyCsAPIResponse>) {
+  const { query: { lan } } = req;
 
   const tycsByLanguage = tycs[lan as string] ?? tycs[defaultLocale];
 

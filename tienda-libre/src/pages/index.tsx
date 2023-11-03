@@ -93,15 +93,23 @@ const Home: NextPage<IProps> = ({ data }) => {
   );
 };
 
-export async function getServerSideProps({ locale }: { locale: string; }): Promise<{ props: { data: ProductsAPIResponse } }> {
+export async function getServerSideProps({ locale }: { locale: string; }) {
   
-  const baseUrl = "http://localhost:3000/";
-  const response = await fetch(`${baseUrl}/api/products/${locale}`);
-  const data = await response.json();
+  try {
 
-  return {
-    props: { data },
-  };
+    const baseUrl = "http://localhost:3000/";
+    const response = await fetch(`${baseUrl}/api/products/${locale}`);
+    const data = await response.json();
+    return {
+      props: { data },
+    };
+
+  } catch (error) {
+    console.error("Error al obtener datos de la API:", error);
+    return {
+      props: { data: null },
+    };
+  }
 }
 
 export default Home;

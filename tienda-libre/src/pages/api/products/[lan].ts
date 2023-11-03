@@ -3,8 +3,8 @@ import { ProductsAPIResponse } from "../../../types";
 import { defaultLocale } from "../../../locale/constants";
 import { products } from "../db";
 
-export default async function handler( req: NextApiRequest, res: NextApiResponse<ProductsAPIResponse> ) {
-  const { query: { lan }, } = req;
+export default async function productsHandler( req: NextApiRequest, res: NextApiResponse<ProductsAPIResponse> ) {
+  const { query: { lan } } = req;
 
   const productsByLanguage = products[lan as string] ?? products[defaultLocale];
 
