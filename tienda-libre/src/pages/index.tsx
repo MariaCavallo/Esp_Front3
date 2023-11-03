@@ -1,9 +1,9 @@
 import React from "react";
-import type { NextPage } from "next";
+import type { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { defaultLocale, TEXTS_BY_LANGUAGE } from "../locale/constants";
+import { defaultLocale, TEXTS_BY_LANGUAGE, locales } from "../locale/constants";
 import styles from "../styles/Home.module.css";
 import { Product, ProductsAPIResponse } from "../types";
 
@@ -16,9 +16,7 @@ const Home: NextPage<IProps> = ({ data }) => {
 
   if (!data) return null;
 
-  const { MAIN } =
-    TEXTS_BY_LANGUAGE[locale as keyof typeof TEXTS_BY_LANGUAGE] ??
-    TEXTS_BY_LANGUAGE[defaultLocale];
+  const { MAIN } = TEXTS_BY_LANGUAGE[locale as keyof typeof TEXTS_BY_LANGUAGE] ?? TEXTS_BY_LANGUAGE[defaultLocale];
 
   const formatPrice: (price: number) => string = (price) =>
     price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -32,7 +30,6 @@ const Home: NextPage<IProps> = ({ data }) => {
         key={index}
         alt={index <= rating ? "yellow star" : "empty star"}
         src={index <= rating ? "/yellowStar.png" : "/emptyStar.png"}
-    
         width={20}
         height={20}
       />
@@ -55,7 +52,6 @@ const Home: NextPage<IProps> = ({ data }) => {
       <div className={styles.imageDescription}>
         <Image
           src={image}
-         
           width={100}
           height={130}
           alt={title}
@@ -93,11 +89,24 @@ const Home: NextPage<IProps> = ({ data }) => {
   );
 };
 
-export async function getServerSideProps({ locale }: { locale: string; }) {
+// export const getStaticPaths: GetStaticPaths = async () => {
   
-  try {
+//   const paths = Object.keys(locales).map((locale) => ({
+//     params: { locale },
+//   }));
 
-    const baseUrl = "http://localhost:3000/";
+//   return { 
+//     paths, 
+//     fallback: 'blocking' 
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  
+  const locale = params?.locale as keyof typeof locales;
+
+  try {
+    const baseUrl = "http://localhost:3000";
     const response = await fetch(`${baseUrl}/api/products/${locale}`);
     const data = await response.json();
     return {

@@ -1,9 +1,9 @@
 import React from "react";
-import { NextPage } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { TyC, TyCsAPIResponse } from "../types";
 import styles from "../styles/TYC.module.css";
 import Head from "next/head";
-import { defaultLocale, TEXTS_BY_LANGUAGE } from "../locale/constants";
+import { defaultLocale, locales, TEXTS_BY_LANGUAGE } from "../locale/constants";
 import { useRouter } from "next/router";
 
 type IProps = {
@@ -15,9 +15,7 @@ const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
 
   if (!data) return null;
 
-  const { MAIN } =
-    TEXTS_BY_LANGUAGE[locale as keyof typeof TEXTS_BY_LANGUAGE] ??
-    TEXTS_BY_LANGUAGE[defaultLocale];
+  const { MAIN } = TEXTS_BY_LANGUAGE[locale as keyof typeof TEXTS_BY_LANGUAGE] ?? TEXTS_BY_LANGUAGE[defaultLocale];
 
   const { version, tycs } = data;
 
@@ -44,11 +42,25 @@ const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
   );
 };
 
-export async function getStaticProps({ locale }: { locale: string; }) {
+// export const getStaticPaths: GetStaticPaths = async () => {
+  
+//   const paths = Object.keys(locales).map((locale) => ({
+//     params: { locale },
+//   }));
+
+//   return { 
+//     paths, 
+//     fallback: 'blocking' 
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+
+  const locale = params?.locale as keyof typeof locales;
 
   try {
 
-    const baseUrl = "http://localhost:3000/";
+    const baseUrl = "http://localhost:3000";
     const response = await fetch(`${baseUrl}/api/tycs/${locale}`);
     const data = await response.json();
     return {
