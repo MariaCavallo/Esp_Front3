@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const locale = params?.locale as keyof typeof locales;
 
   try {
-    const baseUrl = "http://localhost:3000";
+    const baseUrl = "https://tienda-libre-tl.vercel.app";
     const response = await fetch(`${baseUrl}/api/products/${locale}`);
     const data = await response.json();
     return {

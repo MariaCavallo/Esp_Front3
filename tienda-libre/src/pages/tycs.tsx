@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   try {
 
-    const baseUrl = "http://localhost:3000";
+    const baseUrl = "https://tienda-libre-tl.vercel.app";
     const response = await fetch(`${baseUrl}/api/tycs/${locale}`);
     const data = await response.json();
     return {
