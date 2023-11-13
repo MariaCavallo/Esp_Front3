@@ -15,15 +15,18 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
     "@mui/styled-engine-sc": "^6.0.0-alpha.5",
+    "@mui/x-data-grid": "^6.18.1",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-window": "^1.8.9",
     "styled-components": "^6.1.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-window": "^1.8.8",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
     "typescript": "^5"
