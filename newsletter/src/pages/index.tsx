@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, ListItem, ListItemButton, ListItemText, MenuItem, Modal, Paper, Radio, RadioGroup, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import { rows, columns } from "./data";
-import { DataGrid } from "@mui/x-data-grid";
-import Link from "next/link";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Modal, Paper, Radio, RadioGroup, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const style = {
   position: "absolute",
@@ -17,10 +15,22 @@ const style = {
   p: 4,
 };
 
+interface Rows {
+  id: number;
+  username: string;
+  email: string; 
+  gender: string 
+}
+
 export default function Home() {
 
   const [stack, setStack] = useState("");
   const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("Femenino");
+  const [rows, setRows] = useState<Rows[]>([]);
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,13 +44,38 @@ export default function Home() {
     setStack(event.target.value as string)
   }
 
+  const handleSuscribe = () => {
+    const newData = {
+      id: rows.length + 1,
+      username,
+      email,
+      stack,
+      gender
+    };
+    setRows(prevRows => [...prevRows, newData]);
+    setUsername("");
+    setEmail("");
+    setStack("");
+    setGender("Femenino");
+    alert(`Se ha suscrito con éxito, Bienvenid@ ${username}! 🙌`)
+  }
+
+  const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'username', headerName: 'Nombre de usuario', width: 150 },
+    { field: 'email', headerName: 'Email', width: 150 },
+    { field: 'stack', headerName: 'Stack', width: 150 },
+    { field: 'gender', headerName: 'Género', width: 150 },
+  ];
+
+
   return (
     <Box sx={{ maxWidth: 500 }}>
       <Paper
         elevation={1}
         sx={{ p: "32px", display: "flex", flexDirection: "column", gap: 3 }}
       >
-        <Typography sx={{ fontWeight: 500, fontSize: 24 }}>
+        <Typography sx={{ fontWeight: 500, fontSize: 24 , color: "#1976D2"}}>
           Suscríbase a nuestro Newsletter!📰
         </Typography>
 
@@ -50,6 +85,8 @@ export default function Home() {
             label="Nombre de usuario"
             variant="outlined"
             sx={{ width: 1 }}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Grid>
 
@@ -59,6 +96,8 @@ export default function Home() {
             label="Email"
             variant="outlined"
             sx={{ width: 1 }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Grid>
 
@@ -71,9 +110,9 @@ export default function Home() {
             label="Stack"
             onChange={handleChange}
           >
-            <MenuItem value={"FE"}>Front-end💻</MenuItem>
-            <MenuItem value={"BE"}>Back-end👩‍💻</MenuItem>
-            <MenuItem value={"FS"}>Full-stack📚</MenuItem>
+            <MenuItem value={"Front-end💻"}>Front-end💻</MenuItem>
+            <MenuItem value={"Back-end👩‍💻"}>Back-end👩‍💻</MenuItem>
+            <MenuItem value={"Full-stack📚"}>Full-stack📚</MenuItem>
           </Select>
         </FormControl>
 
@@ -83,6 +122,8 @@ export default function Home() {
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
           >
             <FormControlLabel value="Femenino" control={<Radio />} label="Femenino" />
             <FormControlLabel value="Masculino" control={<Radio />} label="Masculino" />
@@ -95,7 +136,7 @@ export default function Home() {
           <Checkbox />
         </Box>
 
-        <Button variant="contained" sx={{ width: 1 }} onClick={() => alert("Se ha suscripto con éxito, Bienvenid@! 🙌")}>
+        <Button variant="contained" sx={{ width: 1 }} onClick={handleSuscribe}>
           Suscribirse📝
         </Button>
 
